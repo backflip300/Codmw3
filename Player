@@ -5,10 +5,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Player extends Entity {
-	private int radius = 10, dx = 0, dy = 0, speed = 3;
+	private int radius = 10, dx = 0, dy = 0, speed = 3,  i = -1,health = 100, bullets = 1000;
 	private boolean set = false, shoot = false, fwd = false, bkwd = false,
 			tleft = false, tright = false;
-	Fire f;
+	private Fire f[] = new Fire[1000];
 
 	public Player(int x, int y) {
 		super(x, y);
@@ -16,23 +16,37 @@ public class Player extends Entity {
 	}
 
 	public void draw(Graphics g) {
+		
 		this.move();
 		if (shoot == true) {
 			if (set == true){
-				f = new Fire(x, y, orientation);
+				bullets--;
+				i++;
+				System.out.println(i);
+				f[i] = new Fire(x, y, orientation);
 				set = false;
+				
 			}
-			System.out.println("hello");
-			f.draw(g);
+		}
+		
+		for (int b = 0; b <= i; b++){
+		f[b].draw(g);
+		}
+		if(i >= 1){
+		System.out.println(f[1].getX());
 		}
 		g.setColor(Color.BLACK);
 		g.fillOval(x - radius, y - radius, radius * 2, radius * 2);
+		g.setColor(Color.RED);
+		g.drawRect(x - 30, y, 10,-health/3);
+		g.drawString(Integer.toString(bullets), 100, 100);
+		//health--;
 		if (orientation >= 360) {
 			orientation -= 360;
 		}
 		int y2 = (int) (10 * Math.sin(Math.toRadians(orientation)));
 		int x2 = (int) (10 * Math.cos(Math.toRadians(orientation)));
-		System.out.println(y2);
+		
 		g.setColor(Color.BLUE);
 		g.drawLine(x, y, x + x2, y + y2);
 		g.drawLine(x + 1, y + 1, x + x2 + 1, y + y2 + 1);
