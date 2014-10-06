@@ -1,0 +1,109 @@
+package codmw3;
+
+//import java.awt.Color;
+import java.awt.Color;
+import java.awt.Graphics;
+
+public class Player extends Entity {
+	private int radius = 10, dx = 0, dy = 0, speed = 3;
+	private boolean set = false, shoot = false, fwd = false, bkwd = false,
+			tleft = false, tright = false;
+	Fire f;
+
+	public Player(int x, int y) {
+		super(x, y);
+
+	}
+
+	public void draw(Graphics g) {
+		this.move();
+		if (shoot == true) {
+			if (set == true){
+				f = new Fire(x, y, orientation);
+				set = false;
+			}
+			System.out.println("hello");
+			f.draw(g);
+		}
+		g.setColor(Color.BLACK);
+		g.fillOval(x - radius, y - radius, radius * 2, radius * 2);
+		if (orientation >= 360) {
+			orientation -= 360;
+		}
+		int y2 = (int) (10 * Math.sin(Math.toRadians(orientation)));
+		int x2 = (int) (10 * Math.cos(Math.toRadians(orientation)));
+		System.out.println(y2);
+		g.setColor(Color.BLUE);
+		g.drawLine(x, y, x + x2, y + y2);
+		g.drawLine(x + 1, y + 1, x + x2 + 1, y + y2 + 1);
+		g.drawLine(x - 1, y - 1, x + x2 - 1, y + y2 - 1);
+
+	}
+
+	public void move() {
+		if (tright == true) {
+			orientation += 5;
+		}
+		if (tleft == true) {
+			orientation -= 5;
+		}
+		if (fwd == true) {
+			dx = (int) (speed * Math.cos(Math.toRadians(orientation)));
+			dy = (int) (speed * Math.sin(Math.toRadians(orientation)));
+
+		}
+		if (bkwd == true) {
+			dx = (int) -(speed * Math.cos(Math.toRadians(orientation)));
+			dy = (int) -(speed * Math.sin(Math.toRadians(orientation)));
+		}
+		x += dx;
+		y += dy;
+	}
+
+	public void setBkwd(boolean bkwd) {
+		this.bkwd = bkwd;
+	}
+
+	public void setFwd(boolean fwd) {
+		this.fwd = fwd;
+	}
+
+	public boolean isfwd() {
+		return fwd;
+	}
+
+	public boolean isbkwd() {
+		return bkwd;
+	}
+
+	public void setDx(int dx) {
+		this.dx = dx;
+	}
+
+	public void setDy(int dy) {
+		this.dy = dy;
+	}
+
+	public void settright(boolean tright) {
+		this.tright = tright;
+	}
+
+	public boolean istright() {
+		return tright;
+	}
+
+	public void settleft(boolean tleft) {
+		this.tleft = tleft;
+	}
+
+	public boolean istleft() {
+		return tleft;
+	}
+
+	public void setShoot(boolean shoot) {
+		this.shoot = shoot;
+	}
+	public void setSet(boolean set) {
+		this.set = set;
+	}
+}
