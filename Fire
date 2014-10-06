@@ -1,0 +1,27 @@
+package codmw3;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
+public class Fire {
+	
+	private int x,y,speed = 20,dx,dy,radius = 2;
+	private double angle;
+	
+public Fire(int x, int y,double angle) {
+	this.x =x;
+	this.y =y;
+	this.angle = angle;
+	System.out.println("output");
+}
+
+public void draw(Graphics g){
+	System.out.println("output");
+	g.setColor(Color.RED);
+	g.fillOval(x-radius, y-radius, radius*2, radius*2);
+	dx = (int) (speed * Math.cos(Math.toRadians(angle)));
+	dy = (int) (speed * Math.sin(Math.toRadians(angle)));
+	x += dx;
+	y += dy;
+}
+}
