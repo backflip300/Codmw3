@@ -13,21 +13,35 @@ import javax.swing.JPanel;
 public class Map extends JPanel implements KeyListener {
 
 	Player p1;
+	Player p2;
 
 	public Map() {
 
 		setSize(1000, 1000);
 		setPreferredSize(new Dimension(1000, 1000));
 		setFocusable(true);
-		p1 = new Player(500, 500);
+		p1 = new Player(100,500,100);
+		p2 = new Player(900,500,900);
 		// p2 = new Player((getWidth()/7)*6,getHeight()/2);
 		addKeyListener(this);
 	}
 
 	public void paint(Graphics g) {
+	
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
-		p1.draw(g);
+		if(p1.getHealth() <= 0){
+			g.setColor(Color.RED);
+			g.drawString("right player wins", 500, 500);			
+		}else 	if(p2.getHealth() <= 0){
+			g.setColor(Color.RED);
+			g.drawString("left player wins", 500, 500);
+		
+		}else{
+		p1.draw(g, this);
+		p2.draw(g, this );
+		g.setColor(Color.RED);
+	
 		g.dispose();
 		repaint();
 		try {
@@ -36,7 +50,7 @@ public class Map extends JPanel implements KeyListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		}
 	}
 
 	public static void main(String args[]) {
@@ -100,6 +114,54 @@ public class Map extends JPanel implements KeyListener {
 		if (k == KeyEvent.VK_SPACE){
 			p1.setShoot(true);
 			p1.setSet(true);
+			
+		}
+		if (k == KeyEvent.VK_RIGHT) {
+			if (p2.istleft() == false && p2.istright() == false) {
+				p2.settright(true);
+			} else {
+				p2.settright(false);
+				p2.settleft(false);
+			}
+		}
+		if (k == KeyEvent.VK_LEFT) {
+			if (p2.istleft() == false && p2.istright() == false) {
+				p2.settleft(true);
+			} else {
+				p2.settright(false);
+				p2.settleft(false);
+			}
+
+		}
+		if (k == KeyEvent.VK_UP) {
+
+			if (p2.isbkwd() == false && p2.isfwd() == false) {
+				p2.setFwd(true);
+			} else {
+				p2.setFwd(false);
+				p2.setBkwd(false);
+				p2.setDx(0);
+				p2.setDy(0);
+			}
+
+		}
+		if (k == KeyEvent.VK_DOWN) {
+
+			if (p2.isbkwd() == false && p2.isfwd() == false) {
+				p2.setBkwd(true);
+			} else {
+				System.out.println("else worked");
+				p2.setFwd(false);
+				p2.setBkwd(false);
+				p2.setDx(0);
+				p2.setDy(0);
+			}
+			
+			
+		}
+		if (k == KeyEvent.VK_ENTER){
+			p2.setShoot(true);
+			p2.setSet(true);
 		}
 	}
 
