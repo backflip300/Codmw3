@@ -10,12 +10,12 @@ public class Player extends Entity {
 			tleft = false, tright = false;
 	private Fire f[] = new Fire[1000];
 
-	public Player(int x, int y) {
-		super(x, y);
+	public Player(int x, int y, int bulletplace) {
+		super(x, y, bulletplace);
 
 	}
 
-	public void draw(Graphics g) {
+	public void draw(Graphics g, Map m) {
 		
 		this.move();
 		if (shoot == true) {
@@ -30,7 +30,7 @@ public class Player extends Entity {
 		}
 		
 		for (int b = 0; b <= i; b++){
-		f[b].draw(g);
+		f[b].draw(g,m);
 		}
 		if(i >= 1){
 		System.out.println(f[1].getX());
@@ -39,13 +39,26 @@ public class Player extends Entity {
 		g.fillOval(x - radius, y - radius, radius * 2, radius * 2);
 		g.setColor(Color.RED);
 		g.drawRect(x - 30, y, 10,-health/3);
-		g.drawString(Integer.toString(bullets), 100, 100);
+		System.out.println(bulletplace);
+		g.drawString(Integer.toString(bullets), bulletplace, 100);
 		//health--;
 		if (orientation >= 360) {
 			orientation -= 360;
 		}
 		int y2 = (int) (10 * Math.sin(Math.toRadians(orientation)));
 		int x2 = (int) (10 * Math.cos(Math.toRadians(orientation)));
+		if (x > 1000-radius){
+			x = 1000 - radius;
+		}
+		if (y > 1000-radius){
+			y = 1000 - radius;
+		}
+		if (x < 0 + radius){
+			x = radius;
+		}
+		if (y < 0 + radius){
+			y = radius;
+		}
 		
 		g.setColor(Color.BLUE);
 		g.drawLine(x, y, x + x2, y + y2);
@@ -119,5 +132,15 @@ public class Player extends Entity {
 	}
 	public void setSet(boolean set) {
 		this.set = set;
+	}
+
+	public int getRadius() {
+		return radius;
+	}
+	public void setHealth(int health) {
+		this.health = health;
+	}
+	public int getHealth() {
+		return health;
 	}
 }
